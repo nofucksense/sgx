@@ -123,7 +123,7 @@ stocks=(\
 
 stocks_alias=("krisenergy" "singpost" "sph" "keppel_corp" "noble" "sia_engg" "rotary" "genting" "singtel" "silver" "starhub" "nam_cheong" "ezion" "nico_steel")
 gmail_user=werner73test@gmail.com
-gmail_password=Password999!
+gmail_password=Password999!@#$
 recipients=("<wernergiam73@gmail.com>" "<ongchiewping72@gmail.com>" "<ongsiewsiew78@gmail.com>" "<weetuefatt@gmail.com>" "<kktan8@outlook.com>")
 today_date=`date +%d_%m_%Y`
 fourteen_days_ago=`date +%d_%m_%Y -d '-14 day'`
@@ -250,7 +250,7 @@ do
         then
             echo "now: $now_count before: $before_count"
         fi
-        if [ ! "$now_count" -eq "$before_count" ] ;
+        if [[ ! "$now_count" -eq "$before_count" ]] && [[ "$now_count" -gt "0" ]] ;
         then
             rm -f "mail_${tmp_stock_filename}.txt"
             for ((j=0; j<${#recipients[*]}; j++))

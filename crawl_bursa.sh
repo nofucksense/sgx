@@ -41,7 +41,7 @@ stocks=(\
 
 stocks_aliases=("2488" "5176" "5227")
 gmail_user=werner73test@gmail.com
-gmail_password=Password999!
+gmail_password=Password999!@#$
 recipients=("<wernergiam73@gmail.com>" "<ongchiewping72@gmail.com>" "<ongsiewsiew78@gmail.com>")
 today_date=`date +%d_%m_%Y`
 fourteen_days_ago=`date +%d_%m_%Y -d '-14 day'`
