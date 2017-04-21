@@ -28,5 +28,8 @@ do
     -b cookies_sgx.txt \
     "http://www.sgx.com/proxy/SgxDominoHttpProxy?timeout=14400&dominoHost=http%3A%2F%2Finfofeed.sgx.com%2FApps%3FA%3DCOW_CorpAnnouncement_Content%26B%3D${select}%26C_T%3D-1" | gzip -d > ${select}.txt
     
-    grep -Eo "\"items\":.*$" ${select}.txt | sed "s#\"items\":#var ${select}s = #" | sed "s#,{}]}#]#" > ${select}.js
+    grep -Eo "\"items\":.*$" ${select}.txt | sed "s#\"items\":#var ${select}s = #" | sed "s#,{}]}#]#" > ${select}_new.js
+    if [ -s "${select}_new.js" ] ; then
+        mv ${select}_new.js ${select}.js
+    fi
 done
