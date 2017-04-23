@@ -52,7 +52,8 @@ curl "http://www.shareinvestor.com/news/news_list_f.html?type=regional_news_all&
 grep -E 'div +class="sic_more"' "$BT" > "$BT_CURRENT"
 DIFFERENCE=`diff -u "$BT_PREVIOUS" "$BT_CURRENT" | grep -E '^\+'`
 
-if [ "${#DIFFERENCE}" -gt 1 ] ; then
+DIFFERENCE_LINENO=`echo $DIFFERENCE | wc -l`
+if [ "${DIFFERENCE_LINENO}" -gt 1 ] ; then
     rm -f "mail_si.txt"
     for ((j=0; j<${#recipients[*]}; j++))
     do
