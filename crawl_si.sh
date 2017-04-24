@@ -53,7 +53,7 @@ grep -E 'div +class="sic_more"' "$BT" > "$BT_CURRENT"
 DIFFERENCE=`diff -u "$BT_PREVIOUS" "$BT_CURRENT" | grep -E '^\+'`
 
 DIFFERENCE_LINENO=`echo $DIFFERENCE | wc -l`
-if [ "${DIFFERENCE_LINENO}" -gt 1 ] ; then
+if [ "${DIFFERENCE_LINENO}" -gt 54 ] ; then
     rm -f "mail_si.txt"
     for ((j=0; j<${#recipients[*]}; j++))
     do
