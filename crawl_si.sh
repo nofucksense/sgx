@@ -50,20 +50,21 @@ touch "$BT_CURRENT"
 curl "http://www.shareinvestor.com/news/news_list_f.html?type=regional_news_all&page=1&date=${si_date}&market=sgx" --compress > "$BT"
 
 grep -E 'div +class="sic_more"' "$BT" > "$BT_CURRENT"
-DIFFERENCE=`diff -u "$BT_PREVIOUS" "$BT_CURRENT" | grep -E '^\+'`
+DIFFERENCE=`diff -u "$BT_PREVIOUS" "$BT_CURRENT" | grep -E '^\+ '`
 
-DIFFERENCE_LINENO=`echo $DIFFERENCE | wc -l`
-if [ "${DIFFERENCE_LINENO}" -gt 54 ] ; then
+if [ "${#DIFFERENCE}" -gt 0 ] ; then
     rm -f "mail_si.txt"
     for ((j=0; j<${#recipients[*]}; j++))
     do
-        echo -e "From: ${gmail_user}\nTo: ${recipients[j]}\nSubject: Share Investor ${today_date}\n${DIFFERENCE}" | \
-        sed -r -e 's|href="|href="http://www.shareinvestor.com|g' > "mail_si.txt"
+        echo -e "From: ${gmail_user}\nTo: ${recipients[j]}\nContent-Type: text/html\nSubject: Share Investor ${today_date}\n<html><body>${DIFFERENCE}</body></html>" | \
+        sed -r -e 's|href="|href="http://www.shareinvestor.com|g' | \
+        sed -r -e 's|\+              <div class="sic_more">More</div>|<br><br>|g' > "mail_si.txt"
         if [ -z "$mailx_exist" ] ;
         then
             curl --connect-timeout 10 --url "smtps://smtp.gmail.com:465" --ssl-reqd --mail-from "${gmail_user}" --mail-rcpt "${recipients[j]}" --user "${gmail_user}:${gmail_password}" --insecure --upload-file "mail_si.txt"
         else
-            cat "mail_si.txt" | mailx -s "Subject: Share Investor ${today_date}" "${recipients[j]}"
+            #cat "mail_si.txt" | mailx -s "Subject: Share Investor ${today_date}" "${recipients[j]}"
+            cat "mail_si.txt" | /usr/sbin/sendmail -t
         fi    
     done
 fi
